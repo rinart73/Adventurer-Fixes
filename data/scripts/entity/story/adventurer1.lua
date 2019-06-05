@@ -1,7 +1,9 @@
+local adventurerFixes_updateClient, adventurerFixes_onMeetAdventurer
+
 if onClient() then
 
 
-local adventurerFixes_updateClient = updateClient
+adventurerFixes_updateClient = updateClient
 function updateClient(...)
     if Player():getValue("talked_to_adventurer") then return end
 
@@ -28,7 +30,7 @@ function givePlayerGoodie() -- overridden
     player:getInventory():add(SystemUpgradeTemplate("data/scripts/systems/radarbooster.lua", Rarity(1), Seed(124)))
 end
 
-local adventurerFixes_onMeetAdventurer = onMeetAdventurer
+adventurerFixes_onMeetAdventurer = onMeetAdventurer
 function onMeetAdventurer(...)
     Player(callingPlayer):setValue("talked_to_adventurer", true)
 

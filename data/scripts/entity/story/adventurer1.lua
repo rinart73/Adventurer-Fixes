@@ -1,21 +1,22 @@
-if onClient() then -- CLIENT
+if onClient() then
 
 
-local old_updateClient = updateClient
-function updateClient(timeStep)
+local adventurerFixes_updateClient = updateClient
+function updateClient(...)
     if Player():getValue("talked_to_adventurer") then return end
-    old_updateClient(timeStep)
+
+    adventurerFixes_updateClient(...)
 end
 
-function initUI()
+function initUI() -- overridden
     ScriptUI():registerInteraction("Greetings"%_t, "onGreet") -- fix localization
 end
 
 
-else -- SERVER
+else -- onServer
 
 
-function givePlayerGoodie()
+function givePlayerGoodie() -- overridden
     -- keep this part in case mod was installed on pre-existing server
     if data.given[callingPlayer] then return end
     local player = Player(callingPlayer)
@@ -26,14 +27,13 @@ function givePlayerGoodie()
     
     player:getInventory():add(SystemUpgradeTemplate("data/scripts/systems/radarbooster.lua", Rarity(1), Seed(124)))
 end
-callable(nil, "givePlayerGoodie")
 
-local old_onMeetAdventurer = onMeetAdventurer
-function onMeetAdventurer()
+local adventurerFixes_onMeetAdventurer = onMeetAdventurer
+function onMeetAdventurer(...)
     Player(callingPlayer):setValue("talked_to_adventurer", true)
-    old_onMeetAdventurer()
+
+    adventurerFixes_onMeetAdventurer(...)
 end
-callable(nil, "onMeetAdventurer")
 
 
 end
